@@ -1,7 +1,8 @@
 package com.shansown.aliexpress.api;
 
 import com.shansown.aliexpress.api.request.AliRequest;
-import org.springframework.web.reactive.function.client.ClientResponse;
+import com.shansown.aliexpress.api.response.AliResponse;
+import com.shansown.aliexpress.api.response.AliResult;
 import reactor.core.publisher.Mono;
 
 public interface AliApi {
@@ -9,6 +10,7 @@ public interface AliApi {
   String BASE_URL = "http://gw.api.alibaba.com/openapi/param2/2/portals.open";
   String BASE_TEMPLATE = "%s/api.%s/%s?";
 
+  // Fields
   String FIELDS_KEY = "fields";
   String KWS_KEY = "keywords";
   String CATEGORY_ID_KEY = "categoryId";
@@ -28,5 +30,5 @@ public interface AliApi {
   String LOCAL_CURRENCY_KEY = "localCurrency";
   String LANGUAGE_KEY = "language";
 
-  Mono<ClientResponse> get(AliRequest request);
+  <T extends AliResult> Mono<AliResponse<T>> get(AliRequest<T> request);
 }

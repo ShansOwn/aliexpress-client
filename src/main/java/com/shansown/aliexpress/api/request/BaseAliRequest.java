@@ -1,5 +1,6 @@
 package com.shansown.aliexpress.api.request;
 
+import com.shansown.aliexpress.api.response.AliResult;
 import com.shansown.aliexpress.config.properties.AliAccessProperty;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +14,7 @@ import static com.shansown.aliexpress.api.AliApi.BASE_URL;
 
 @ToString
 @EqualsAndHashCode
-public abstract class BaseAliRequest implements AliRequest {
+public abstract class BaseAliRequest<T extends AliResult> implements AliRequest<T> {
 
   private final Map<String, String> params = new HashMap<>();
   private final AliAccessProperty access;

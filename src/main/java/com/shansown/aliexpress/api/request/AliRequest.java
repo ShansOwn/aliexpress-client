@@ -1,5 +1,12 @@
 package com.shansown.aliexpress.api.request;
 
-public interface AliRequest {
+import com.shansown.aliexpress.api.response.AliResponse;
+import com.shansown.aliexpress.api.response.AliResult;
+import org.springframework.core.ParameterizedTypeReference;
+
+public interface AliRequest<T extends AliResult> {
+
   String toRequestString();
+
+  ParameterizedTypeReference<AliResponse<T>> getResultType();
 }

@@ -1,10 +1,13 @@
 package com.shansown.aliexpress.api.request;
 
+import com.shansown.aliexpress.api.response.AliResponse;
+import com.shansown.aliexpress.api.response.GetPromotionProductDetailResult;
 import com.shansown.aliexpress.config.properties.AliAccessProperty;
 import java.util.Objects;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.springframework.core.ParameterizedTypeReference;
 
 import static com.shansown.aliexpress.api.AliApi.FIELDS_KEY;
 import static com.shansown.aliexpress.api.AliApi.LANGUAGE_KEY;
@@ -13,12 +16,15 @@ import static com.shansown.aliexpress.api.AliApi.PRODUCT_ID_KEY;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class GetPromotionProductDetail extends BaseAliRequest {
+public class GetPromotionProductDetailRequest extends BaseAliRequest<GetPromotionProductDetailResult> {
 
   private static final String API_METHOD = "getPromotionProductDetail";
+  private static final ParameterizedTypeReference<AliResponse<GetPromotionProductDetailResult>>
+      RESULT_TYPE = new ParameterizedTypeReference<AliResponse<GetPromotionProductDetailResult>>() {
+  };
 
   @Builder
-  public GetPromotionProductDetail(AliAccessProperty access, String fields, String productId,
+  public GetPromotionProductDetailRequest(AliAccessProperty access, String fields, String productId,
       String localCurrency, String language) {
     super(access, API_METHOD);
     Objects.requireNonNull(fields, "Fields property required");
@@ -27,5 +33,10 @@ public class GetPromotionProductDetail extends BaseAliRequest {
     putParamIfPresent(PRODUCT_ID_KEY, productId);
     putParamIfPresent(LOCAL_CURRENCY_KEY, localCurrency);
     putParamIfPresent(LANGUAGE_KEY, language);
+  }
+
+  @Override
+  public ParameterizedTypeReference<AliResponse<GetPromotionProductDetailResult>> getResultType() {
+    return RESULT_TYPE;
   }
 }

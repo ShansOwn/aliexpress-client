@@ -1,11 +1,14 @@
 package com.shansown.aliexpress.api.request;
 
+import com.shansown.aliexpress.api.response.AliResponse;
+import com.shansown.aliexpress.api.response.GetPromotionLinksResult;
+import com.shansown.aliexpress.api.response.ListPromotionProductResult;
 import com.shansown.aliexpress.config.properties.AliAccessProperty;
 import java.util.Objects;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.springframework.core.ParameterizedTypeReference;
 
 import static com.shansown.aliexpress.api.AliApi.CATEGORY_ID_KEY;
 import static com.shansown.aliexpress.api.AliApi.END_CREDIT_CORE_KEY;
@@ -25,9 +28,12 @@ import static com.shansown.aliexpress.api.AliApi.VOLUME_TO_KEY;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class ListPromotionProductRequest extends BaseAliRequest {
+public class ListPromotionProductRequest extends BaseAliRequest<ListPromotionProductResult> {
 
   private static final String API_METHOD = "listPromotionProduct";
+  private static final ParameterizedTypeReference<AliResponse<ListPromotionProductResult>>
+      RESULT_TYPE = new ParameterizedTypeReference<AliResponse<ListPromotionProductResult>>() {
+  };
 
   @Builder
   public ListPromotionProductRequest(AliAccessProperty access, String fields, String keywords,
@@ -52,5 +58,10 @@ public class ListPromotionProductRequest extends BaseAliRequest {
     putParamIfPresent(HIGH_QUALITY_ITEMS_KEY, highQualityItems);
     putParamIfPresent(LOCAL_CURRENCY_KEY, localCurrency);
     putParamIfPresent(LANGUAGE_KEY, language);
+  }
+
+  @Override
+  public ParameterizedTypeReference<AliResponse<ListPromotionProductResult>> getResultType() {
+    return RESULT_TYPE;
   }
 }
