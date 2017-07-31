@@ -1,6 +1,6 @@
 com.shansown.aliexpress:
     ali-access:
       api-key: 28110
-      tracking-id: shaonsown
+      tracking-id: shansown
       call-frequency: 100000
       signature: KjEWugZwudL

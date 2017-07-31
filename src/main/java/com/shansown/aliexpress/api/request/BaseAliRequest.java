@@ -5,7 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+import static com.shansown.aliexpress.api.AliApi.BASE_TEMPLATE;
+import static com.shansown.aliexpress.api.AliApi.BASE_URL;
+
+@ToString
+@EqualsAndHashCode
 public abstract class BaseAliRequest implements AliRequest {
 
   private final Map<String, String> params = new HashMap<>();
@@ -32,7 +39,9 @@ public abstract class BaseAliRequest implements AliRequest {
   }
 
   void putParamIfPresent(String param, Number value) {
-    putParamIfPresent(param, String.valueOf(value));
+    if (Objects.nonNull(value)) {
+      params.put(param, String.valueOf(value));
+    }
   }
 
   void putParamIfPresent(String param, String value) {

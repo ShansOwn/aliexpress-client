@@ -1,12 +1,32 @@
 package com.shansown.aliexpress.api.request;
 
 import com.shansown.aliexpress.config.properties.AliAccessProperty;
+import java.util.Objects;
 import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+import static com.shansown.aliexpress.api.AliApi.CATEGORY_ID_KEY;
+import static com.shansown.aliexpress.api.AliApi.END_CREDIT_CORE_KEY;
+import static com.shansown.aliexpress.api.AliApi.FIELDS_KEY;
+import static com.shansown.aliexpress.api.AliApi.HIGH_QUALITY_ITEMS_KEY;
+import static com.shansown.aliexpress.api.AliApi.KWS_KEY;
+import static com.shansown.aliexpress.api.AliApi.LANGUAGE_KEY;
+import static com.shansown.aliexpress.api.AliApi.LOCAL_CURRENCY_KEY;
+import static com.shansown.aliexpress.api.AliApi.ORIGINAL_PRICE_FROM_KEY;
+import static com.shansown.aliexpress.api.AliApi.ORIGINAL_PRICE_TO_KEY;
+import static com.shansown.aliexpress.api.AliApi.PAGE_NO_KEY;
+import static com.shansown.aliexpress.api.AliApi.PAGE_SIZE_KEY;
+import static com.shansown.aliexpress.api.AliApi.SORT_KEY;
+import static com.shansown.aliexpress.api.AliApi.START_CREDIT_CORE_KEY;
+import static com.shansown.aliexpress.api.AliApi.VOLUME_FROM_KEY;
+import static com.shansown.aliexpress.api.AliApi.VOLUME_TO_KEY;
+
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class ListPromotionProductRequest extends BaseAliRequest {
 
-  private static final String DEFAULT_FIELDS =
-      "productUrl,imageUrl,originalPrice,salePrice,productId,productTitle,discount,validTime,commissionRate,commission";
   private static final String API_METHOD = "listPromotionProduct";
 
   @Builder
@@ -15,6 +35,8 @@ public class ListPromotionProductRequest extends BaseAliRequest {
       Integer volumeTo, Integer pageNo, Integer pageSize, String sort, Integer startCreditScore,
       Integer endCreditScore, String highQualityItems, String localCurrency, String language) {
     super(access, API_METHOD);
+    Objects.requireNonNull(fields, "Fields property required");
+    Objects.requireNonNull(keywords, "Keywords property required");
     putParamIfPresent(FIELDS_KEY, fields);
     putParamIfPresent(KWS_KEY, keywords);
     putParamIfPresent(CATEGORY_ID_KEY, categoryId);
