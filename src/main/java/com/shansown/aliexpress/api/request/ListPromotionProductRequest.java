@@ -1,7 +1,6 @@
 package com.shansown.aliexpress.api.request;
 
 import com.shansown.aliexpress.api.response.AliResponse;
-import com.shansown.aliexpress.api.response.GetPromotionLinksResult;
 import com.shansown.aliexpress.api.response.ListPromotionProductResult;
 import com.shansown.aliexpress.config.properties.AliAccessProperty;
 import java.util.Objects;
@@ -25,12 +24,12 @@ import static com.shansown.aliexpress.api.AliApi.SORT_KEY;
 import static com.shansown.aliexpress.api.AliApi.START_CREDIT_CORE_KEY;
 import static com.shansown.aliexpress.api.AliApi.VOLUME_FROM_KEY;
 import static com.shansown.aliexpress.api.AliApi.VOLUME_TO_KEY;
+import static com.shansown.aliexpress.api.ApiMethod.LIST_PROMOTION_PRODUCT;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class ListPromotionProductRequest extends BaseAliRequest<ListPromotionProductResult> {
 
-  private static final String API_METHOD = "listPromotionProduct";
   private static final ParameterizedTypeReference<AliResponse<ListPromotionProductResult>>
       RESULT_TYPE = new ParameterizedTypeReference<AliResponse<ListPromotionProductResult>>() {
   };
@@ -40,7 +39,7 @@ public class ListPromotionProductRequest extends BaseAliRequest<ListPromotionPro
       String categoryId, Double originalPriceFrom, Double originalPriceTo, Integer volumeFrom,
       Integer volumeTo, Integer pageNo, Integer pageSize, String sort, Integer startCreditScore,
       Integer endCreditScore, String highQualityItems, String localCurrency, String language) {
-    super(access, API_METHOD);
+    super(access, LIST_PROMOTION_PRODUCT);
     Objects.requireNonNull(fields, "Fields property required");
     Objects.requireNonNull(keywords, "Keywords property required");
     putParamIfPresent(FIELDS_KEY, fields);

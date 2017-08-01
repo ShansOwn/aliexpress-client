@@ -30,8 +30,8 @@ public class RootController {
   public Mono<ListPromotionProductResult> list() {
     ListPromotionProductRequest request = ListPromotionProductRequest.builder()
         .access(aliAccessProperty)
-        .keywords("iphone 5s")
-        .fields("productUrl,imageUrl,originalPrice,salePrice,productId,productTitle,discount,validTime,commissionRate,commission")
+        .keywords("iphone 6s")
+        .fields("productUrl,evaluateScore,imageUrl,allImageUrls,originalPrice,salePrice,productId,productTitle,discount,validTime,commissionRate,commission,volume")
         .build();
     return doRequest(request);
   }

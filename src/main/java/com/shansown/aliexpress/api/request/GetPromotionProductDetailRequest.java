@@ -13,12 +13,12 @@ import static com.shansown.aliexpress.api.AliApi.FIELDS_KEY;
 import static com.shansown.aliexpress.api.AliApi.LANGUAGE_KEY;
 import static com.shansown.aliexpress.api.AliApi.LOCAL_CURRENCY_KEY;
 import static com.shansown.aliexpress.api.AliApi.PRODUCT_ID_KEY;
+import static com.shansown.aliexpress.api.ApiMethod.GET_PROMOTION_PRODUCT_DETAIL;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class GetPromotionProductDetailRequest extends BaseAliRequest<GetPromotionProductDetailResult> {
 
-  private static final String API_METHOD = "getPromotionProductDetail";
   private static final ParameterizedTypeReference<AliResponse<GetPromotionProductDetailResult>>
       RESULT_TYPE = new ParameterizedTypeReference<AliResponse<GetPromotionProductDetailResult>>() {
   };
@@ -26,7 +26,7 @@ public class GetPromotionProductDetailRequest extends BaseAliRequest<GetPromotio
   @Builder
   public GetPromotionProductDetailRequest(AliAccessProperty access, String fields, String productId,
       String localCurrency, String language) {
-    super(access, API_METHOD);
+    super(access, GET_PROMOTION_PRODUCT_DETAIL);
     Objects.requireNonNull(fields, "Fields property required");
     Objects.requireNonNull(productId, "Product Id property required");
     putParamIfPresent(FIELDS_KEY, fields);

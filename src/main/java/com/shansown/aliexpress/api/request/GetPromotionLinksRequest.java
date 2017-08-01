@@ -12,19 +12,19 @@ import org.springframework.core.ParameterizedTypeReference;
 import static com.shansown.aliexpress.api.AliApi.FIELDS_KEY;
 import static com.shansown.aliexpress.api.AliApi.TRACKING_ID_KEY;
 import static com.shansown.aliexpress.api.AliApi.URLS_KEY;
+import static com.shansown.aliexpress.api.ApiMethod.GET_PROMOTION_LINKS;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class GetPromotionLinksRequest extends BaseAliRequest<GetPromotionLinksResult> {
 
-  private static final String API_METHOD = "getPromotionLinks";
   private static final ParameterizedTypeReference<AliResponse<GetPromotionLinksResult>>
       RESULT_TYPE = new ParameterizedTypeReference<AliResponse<GetPromotionLinksResult>>() {
   };
 
   @Builder
   private GetPromotionLinksRequest(AliAccessProperty access, String fields, String urls) {
-    super(access, API_METHOD);
+    super(access, GET_PROMOTION_LINKS);
     Objects.requireNonNull(fields, "Fields property required");
     putParamIfPresent(FIELDS_KEY, fields);
     putParamIfPresent(TRACKING_ID_KEY, access.getTrackingId());

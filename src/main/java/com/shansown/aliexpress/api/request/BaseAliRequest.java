@@ -1,5 +1,6 @@
 package com.shansown.aliexpress.api.request;
 
+import com.shansown.aliexpress.api.ApiMethod;
 import com.shansown.aliexpress.api.response.AliResult;
 import com.shansown.aliexpress.config.properties.AliAccessProperty;
 import java.util.HashMap;
@@ -18,18 +19,22 @@ public abstract class BaseAliRequest<T extends AliResult> implements AliRequest<
 
   private final Map<String, String> params = new HashMap<>();
   private final AliAccessProperty access;
-  private final String apiMethod;
+  private final ApiMethod apiMethod;
 
-  protected BaseAliRequest(AliAccessProperty access, String apiMethod) {
+  protected BaseAliRequest(AliAccessProperty access, ApiMethod apiMethod) {
     Objects.requireNonNull(access, "Access property required");
     Objects.requireNonNull(apiMethod, "Api method required");
     this.access = access;
     this.apiMethod = apiMethod;
   }
 
+  @Override public ApiMethod getApiMethod() {
+    return apiMethod;
+  }
+
   @Override
   public String toRequestString() {
-    return baseUrl(access.getApiKey(), apiMethod) +
+    return baseUrl(access.getApiKey(), apiMethod.getMethodName()) +
         params.entrySet().stream()
             .map(e -> String.format("%s=%s", e.getKey(), e.getValue()))
             .collect(Collectors.joining("&"));
