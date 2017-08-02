@@ -1,3 +1,6 @@
+logging.level:
+  root: INFO
+  com.shansown.aliexpress: DEBUG
 com.shansown.aliexpress:
     ali-access:
       api-key: 28110

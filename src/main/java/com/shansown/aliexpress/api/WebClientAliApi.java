@@ -1,5 +1,6 @@
 package com.shansown.aliexpress.api;
 
+import com.shansown.aliexpress.api.error.AliRequestError;
 import com.shansown.aliexpress.api.request.AliRequest;
 import com.shansown.aliexpress.api.response.AliResponse;
 import com.shansown.aliexpress.api.response.AliResult;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import static com.shansown.aliexpress.api.error.ApiError.SUCCESS_CODE;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @Slf4j
@@ -21,8 +23,17 @@ public class WebClientAliApi implements AliApi {
 
   public <T extends AliResult> Mono<AliResponse<T>> get(AliRequest<T> request) {
     String uri = request.toRequestString();
-    log.info("Invoke Ali api uri: {}", uri);
+    log.debug("Invoke Ali api uri: {}", uri);
     return webClient.get().uri(uri).accept(APPLICATION_JSON).exchange()
-        .flatMap(r -> r.bodyToMono(request.getResultType()));
+        .flatMap(r -> r.bodyToMono(request.getResultType()))
+        .flatMap(r -> r.getErrorCode() == SUCCESS_CODE
+            ? Mono.just(r)
+            : Mono.error(getError(request, r.getErrorCode())));
+  }
+
+  private AliRequestError getError(AliRequest<?> request, long errorCode) {
+    return request.getErrorByCode(errorCode)
+        .map(AliRequestError::new)
+        .orElse(new AliRequestError(errorCode, "Unknown error"));
   }
 }

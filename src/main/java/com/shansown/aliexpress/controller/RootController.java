@@ -1,6 +1,7 @@
 package com.shansown.aliexpress.controller;
 
 import com.shansown.aliexpress.api.AliApi;
+import com.shansown.aliexpress.api.error.AliRequestError;
 import com.shansown.aliexpress.api.request.AliRequest;
 import com.shansown.aliexpress.api.request.GetPromotionLinksRequest;
 import com.shansown.aliexpress.api.request.GetPromotionProductDetailRequest;
@@ -12,12 +13,14 @@ import com.shansown.aliexpress.api.response.GetPromotionProductDetailResult;
 import com.shansown.aliexpress.api.response.ListPromotionProductResult;
 import com.shansown.aliexpress.config.properties.AliAccessProperty;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -31,7 +34,8 @@ public class RootController {
     ListPromotionProductRequest request = ListPromotionProductRequest.builder()
         .access(aliAccessProperty)
         .keywords("iphone 6s")
-        .fields("productUrl,evaluateScore,imageUrl,allImageUrls,originalPrice,salePrice,productId,productTitle,discount,validTime,commissionRate,commission,volume")
+        .fields(
+            "productUrl,evaluateScore,imageUrl,allImageUrls,originalPrice,salePrice,productId,productTitle,discount,validTime,commissionRate,commission,volume")
         .build();
     return doRequest(request);
   }
@@ -58,6 +62,10 @@ public class RootController {
   }
 
   private <T extends AliResult> Mono<T> doRequest(AliRequest<T> request) {
-    return api.get(request).map(AliResponse::getResult);
+    return api.get(request)
+        .doOnNext(r -> log.debug("Response: {}", r))
+        .doOnError(AliRequestError.class, e -> log.warn("Ali request error: {}, {}", e.getCode(), e.getMsg()))
+        .doOnError(e -> !(e instanceof AliRequestError), e -> log.error("Unexpected error", e))
+        .map(AliResponse::getResult);
   }
 }

@@ -1,11 +1,16 @@
 package com.shansown.aliexpress.api.request;
 
+import com.shansown.aliexpress.api.error.ApiError;
 import com.shansown.aliexpress.api.response.AliResponse;
 import com.shansown.aliexpress.api.response.GetPromotionProductDetailResult;
 import com.shansown.aliexpress.config.properties.AliAccessProperty;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.core.ParameterizedTypeReference;
 
@@ -38,5 +43,29 @@ public class GetPromotionProductDetailRequest extends BaseAliRequest<GetPromotio
   @Override
   public ParameterizedTypeReference<AliResponse<GetPromotionProductDetailResult>> getResultType() {
     return RESULT_TYPE;
+  }
+
+  @Override
+  public Optional<? extends ApiError> getErrorByCode(Long code) {
+    return code != null
+        ? Stream.of(Error.values()).filter(e -> e.getCode() == code).findAny()
+        : Optional.empty();
+  }
+
+  @Getter
+  @RequiredArgsConstructor
+  private enum Error implements ApiError {
+    SYSTEM(20020000, "System Error"),
+    UNAUTHORIZED_REQUEST(20030000, "Unauthorized transfer request"),
+    REQUIRED_PARAMETERS(20030010, "Required parameters"),
+    INVALID_PROTOCOL(20030020, "Invalid protocol format"),
+    API_VERSION(20030030, "API version input parameter error"),
+    NAME_SPACE(20030040, "API name space input parameter error"),
+    NAME(20030050, "API name space input parameter error"),
+    FIELDS(20030060, "Fields input parameter error"),
+    PRODUCT_ID(20030070, "Product ID input parameter error");
+
+    private final long code;
+    private final String msg;
   }
 }
