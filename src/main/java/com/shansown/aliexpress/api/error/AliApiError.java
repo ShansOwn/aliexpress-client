@@ -1,6 +1,6 @@
 package com.shansown.aliexpress.api.error;
 
-public interface ApiError {
+public interface AliApiError {
 
   long SUCCESS_CODE = 20010000;
 

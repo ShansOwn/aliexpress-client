@@ -1,6 +1,6 @@
 package com.shansown.aliexpress.api.request;
 
-import com.shansown.aliexpress.api.error.ApiError;
+import com.shansown.aliexpress.api.error.AliApiError;
 import com.shansown.aliexpress.api.response.AliResponse;
 import com.shansown.aliexpress.api.response.GetPromotionLinksResult;
 import com.shansown.aliexpress.config.properties.AliAccessProperty;
@@ -16,7 +16,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import static com.shansown.aliexpress.api.AliApi.FIELDS_KEY;
 import static com.shansown.aliexpress.api.AliApi.TRACKING_ID_KEY;
 import static com.shansown.aliexpress.api.AliApi.URLS_KEY;
-import static com.shansown.aliexpress.api.ApiMethod.GET_PROMOTION_LINKS;
+import static com.shansown.aliexpress.api.AliApiMethod.GET_PROMOTION_LINKS;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
@@ -41,13 +41,13 @@ public class GetPromotionLinksRequest extends BaseAliRequest<GetPromotionLinksRe
   }
 
   @Override
-  public Optional<? extends ApiError> getErrorByCode(Long code) {
+  public Optional<? extends AliApiError> getErrorByCode(Long code) {
     return Optional.empty();
   }
 
   @Getter
   @RequiredArgsConstructor
-  private enum Error implements ApiError {
+  private enum Error implements AliApiError {
     SYSTEM(20020000, "System Error"),
     UNAUTHORIZED_REQUEST(20030000, "Unauthorized transfer request"),
     REQUIRED_PARAMETERS(20030010, "Required parameters"),

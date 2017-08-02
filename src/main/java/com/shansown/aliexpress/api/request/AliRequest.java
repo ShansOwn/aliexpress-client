@@ -1,7 +1,7 @@
 package com.shansown.aliexpress.api.request;
 
-import com.shansown.aliexpress.api.ApiMethod;
-import com.shansown.aliexpress.api.error.ApiError;
+import com.shansown.aliexpress.api.AliApiMethod;
+import com.shansown.aliexpress.api.error.AliApiError;
 import com.shansown.aliexpress.api.response.AliResponse;
 import com.shansown.aliexpress.api.response.AliResult;
 import java.util.Optional;
@@ -13,7 +13,7 @@ public interface AliRequest<T extends AliResult> {
 
   ParameterizedTypeReference<AliResponse<T>> getResultType();
 
-  ApiMethod getApiMethod();
+  AliApiMethod getAliApiMethod();
 
-  Optional<? extends ApiError> getErrorByCode(Long code);
+  Optional<? extends AliApiError> getErrorByCode(Long code);
 }

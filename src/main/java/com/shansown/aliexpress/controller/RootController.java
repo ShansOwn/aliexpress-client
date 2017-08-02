@@ -1,7 +1,9 @@
 package com.shansown.aliexpress.controller;
 
 import com.shansown.aliexpress.api.AliApi;
-import com.shansown.aliexpress.api.error.AliRequestError;
+import com.shansown.aliexpress.api.error.AliApiException;
+import com.shansown.aliexpress.api.error.AliRequestException;
+import com.shansown.aliexpress.api.error.AliRequestLimitExceededException;
 import com.shansown.aliexpress.api.request.AliRequest;
 import com.shansown.aliexpress.api.request.GetPromotionLinksRequest;
 import com.shansown.aliexpress.api.request.GetPromotionProductDetailRequest;
@@ -64,8 +66,11 @@ public class RootController {
   private <T extends AliResult> Mono<T> doRequest(AliRequest<T> request) {
     return api.get(request)
         .doOnNext(r -> log.debug("Response: {}", r))
-        .doOnError(AliRequestError.class, e -> log.warn("Ali request error: {}, {}", e.getCode(), e.getMsg()))
-        .doOnError(e -> !(e instanceof AliRequestError), e -> log.error("Unexpected error", e))
+        .doOnError(AliRequestException.class, e -> log.warn("Ali request error: {}, {}", e.getCode(), e.getMsg()))
+        .doOnError(AliRequestLimitExceededException.class,
+            e -> log.warn("Ali request limit ({}) for method {} exceeded",
+                e.getMethod().getLimit(), e.getMethod().getMethodName()))
+        .doOnError(e -> !(e instanceof AliApiException), e -> log.error("Unexpected error", e))
         .map(AliResponse::getResult);
   }
 }

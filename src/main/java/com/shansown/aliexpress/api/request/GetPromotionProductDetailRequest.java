@@ -1,6 +1,6 @@
 package com.shansown.aliexpress.api.request;
 
-import com.shansown.aliexpress.api.error.ApiError;
+import com.shansown.aliexpress.api.error.AliApiError;
 import com.shansown.aliexpress.api.response.AliResponse;
 import com.shansown.aliexpress.api.response.GetPromotionProductDetailResult;
 import com.shansown.aliexpress.config.properties.AliAccessProperty;
@@ -18,7 +18,7 @@ import static com.shansown.aliexpress.api.AliApi.FIELDS_KEY;
 import static com.shansown.aliexpress.api.AliApi.LANGUAGE_KEY;
 import static com.shansown.aliexpress.api.AliApi.LOCAL_CURRENCY_KEY;
 import static com.shansown.aliexpress.api.AliApi.PRODUCT_ID_KEY;
-import static com.shansown.aliexpress.api.ApiMethod.GET_PROMOTION_PRODUCT_DETAIL;
+import static com.shansown.aliexpress.api.AliApiMethod.GET_PROMOTION_PRODUCT_DETAIL;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
@@ -46,7 +46,7 @@ public class GetPromotionProductDetailRequest extends BaseAliRequest<GetPromotio
   }
 
   @Override
-  public Optional<? extends ApiError> getErrorByCode(Long code) {
+  public Optional<? extends AliApiError> getErrorByCode(Long code) {
     return code != null
         ? Stream.of(Error.values()).filter(e -> e.getCode() == code).findAny()
         : Optional.empty();
@@ -54,7 +54,7 @@ public class GetPromotionProductDetailRequest extends BaseAliRequest<GetPromotio
 
   @Getter
   @RequiredArgsConstructor
-  private enum Error implements ApiError {
+  private enum Error implements AliApiError {
     SYSTEM(20020000, "System Error"),
     UNAUTHORIZED_REQUEST(20030000, "Unauthorized transfer request"),
     REQUIRED_PARAMETERS(20030010, "Required parameters"),
