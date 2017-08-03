@@ -1,0 +1,49 @@
+CREATE TABLE ali_category (
+  id BIGINT NOT NULL PRIMARY KEY,
+  name VARCHAR(255)
+);
+
+CREATE TABLE ali_product (
+  id BIGINT NOT NULL PRIMARY KEY,
+  category_id BIGINT NOT NULL,
+  title VARCHAR(255),
+  product_url VARCHAR(255),
+  promotion_url VARCHAR(255),
+  image_url VARCHAR(255),
+  valid_time TIMESTAMP,
+  evaluate_score REAL,
+  original_price REAL,
+  sale_price REAL,
+  discount INTEGER,
+  CONSTRAINT FK_ALI_PRODUCT_ALI_CATEGORY FOREIGN KEY (category_id) REFERENCES ali_category (id)
+);
+
+INSERT INTO ali_category VALUES
+  (3, 'Apparel & Accessories'),
+  (34, 'Automobiles & Motorcycles'),
+  (66, 'Beauty & Health'),
+  (7, 'Computer & Office'),
+  (13, 'Home Improvement'),
+  (44, 'Consumer Electronics'),
+  (5, 'Electrical Equipment & Supplies'),
+  (502, 'Electronic Components & Supplies'),
+  (1503, 'Furniture'),
+  (200003655, 'Hair & Accessories'),
+  (42, 'Hardware'),
+  (15, 'Home & Garden'),
+  (6, 'Home Appliances'),
+  (200001996, 'Industry & Business'),
+  (36, 'Jewelry & Accessories'),
+  (39, 'Lights & Lighting'),
+  (1524, 'Luggage & Bags'),
+  (1501, 'Mother & Kids'),
+  (21, 'Office & School Supplies'),
+  (509, 'Phones & Telecommunications'),
+  (30, 'Security & Protection'),
+  (322, 'Shoes'),
+  (18, 'Sports & Entertainment'),
+  (1420, 'Tools'),
+  (26, 'Toys & Hobbies'),
+  (1511, 'Watches'),
+  (320, 'Weddings & Events');
+

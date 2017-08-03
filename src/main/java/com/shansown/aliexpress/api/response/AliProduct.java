@@ -1,11 +1,13 @@
 package com.shansown.aliexpress.api.response;
 
 import java.util.Date;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class Product {
-  private final String productId;
+@Builder(builderClassName = "Builder")
+public class AliProduct {
+  private final Long productId;
   private final String productTitle;
   private final String productUrl;
   private final String originalPrice;

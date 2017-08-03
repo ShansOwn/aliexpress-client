@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 public class ListPromotionProductResult implements AliResult {
   private final Long totalResults;
-  private final List<Product> products;
+  private final List<AliProduct> products;
 }
