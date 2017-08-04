@@ -8,7 +8,7 @@ CREATE TABLE ali_product (
   category_id BIGINT NOT NULL,
   title VARCHAR(255),
   product_url VARCHAR(255),
-  promotion_url VARCHAR(255),
+  promotion_url VARCHAR(600),
   image_url VARCHAR(255),
   valid_time TIMESTAMP,
   evaluate_score REAL,

@@ -41,7 +41,7 @@ public class ListPromotionProductRequest extends BaseAliRequest<ListPromotionPro
 
   @Builder
   public ListPromotionProductRequest(AliAccessProperty access, String fields, String keywords,
-      String categoryId, Double originalPriceFrom, Double originalPriceTo, Integer volumeFrom,
+      Long categoryId, Double originalPriceFrom, Double originalPriceTo, Integer volumeFrom,
       Integer volumeTo, Integer pageNo, Integer pageSize, String sort, Integer startCreditScore,
       Integer endCreditScore, String highQualityItems, String localCurrency, String language) {
     super(access, LIST_PROMOTION_PRODUCT);

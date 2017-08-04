@@ -10,6 +10,9 @@ public interface AliApi {
   String BASE_URL = "http://gw.api.alibaba.com/openapi/param2/2/portals.open";
   String BASE_TEMPLATE = "%s/api.%s/%s?";
 
+  int MAX_PAGE_SIZE = 40;
+  int MAX_LINK_URLS = 50;
+
   // Fields
   String FIELDS_KEY = "fields";
   String KWS_KEY = "keywords";
