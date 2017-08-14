@@ -12,6 +12,7 @@ import com.shansown.aliexpress.model.Category;
 import com.shansown.aliexpress.model.Product;
 import com.shansown.aliexpress.repository.ProductReactiveRepository;
 import com.shansown.aliexpress.service.mapper.ProductMapper;
+import com.shansown.aliexpress.util.PageCalculator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.Nullable;
 import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
@@ -44,16 +46,15 @@ public class ProductService {
 
   private final ProductReactiveRepository productRepository;
 
-  public Flux<Product> findByKeyword(String keyword) {
+  public Flux<Product> requestByKeyword(String keyword) {
     log.debug("Find by keyword: {}", keyword);
     return categoryService.getAll()
         .map(Category::getId)
-        .flatMap(catId -> getAliProducts(catId, keyword)
+        .flatMap(catId -> requestAllAliProducts(catId, keyword)
             .buffer(MAX_LINK_URLS)
-            .flatMap(products -> getPromotionLinks(products)
+            .flatMap(products -> requestPromotionLinks(products)
                 .map(urls -> mapProducts(catId, products, urls))))
-        .flatMap(Flux::fromStream)
-        .log();
+        .flatMap(Flux::fromStream);
   }
 
   @Transactional
@@ -62,17 +63,27 @@ public class ProductService {
     return productRepository.saveAll(products).count();
   }
 
-  private Flux<AliProduct> getAliProducts(Long catId, String keyword) {
-    return Flux.just(createListProductRequestBuilder(keyword).categoryId(catId).build())
-        .flatMap(api::get)
-        .onErrorResume(AliRequestException.class, e -> Flux.empty())
-        .map(AliResponse::getResult)
+  private Flux<AliProduct> requestAllAliProducts(Long catId, String keyword) {
+    return requestAliProductsPages(catId, keyword)
+        .flatMap(page -> requestListAliProducts(catId, keyword, page))
         .filter(r -> r.getProducts().size() > 0)
         .map(ListPromotionProductResult::getProducts)
         .flatMap(Flux::fromIterable);
   }
 
-  private Flux<List<PromotionLink>> getPromotionLinks(List<AliProduct> products) {
+  private Flux<Integer> requestAliProductsPages(Long catId, String keyword) {
+    return requestListAliProducts(catId, keyword, null)
+        .flatMap(r -> Flux.range(1, PageCalculator.computePagesNumber(r.getTotalResults()) + 1));
+  }
+
+  private Flux<ListPromotionProductResult> requestListAliProducts(Long catId, String keyword, @Nullable Integer page) {
+    return Flux.just(createListProductRequestBuilder(keyword).categoryId(catId).pageNo(page).build())
+        .flatMap(api::get)
+        .onErrorResume(AliRequestException.class, e -> Flux.empty())
+        .map(AliResponse::getResult);
+  }
+
+  private Flux<List<PromotionLink>> requestPromotionLinks(List<AliProduct> products) {
     return Flux.just(createPromotionLinksRequestBuilder(products).build())
         .flatMap(api::get)
         .map(AliResponse::getResult)

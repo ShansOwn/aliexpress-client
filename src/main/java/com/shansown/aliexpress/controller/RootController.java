@@ -22,7 +22,7 @@ public class RootController {
 
   @PostMapping("/find")
   public Mono<Long> find(@RequestBody String keyword) {
-    Flux<Product> products = productService.findByKeyword(keyword);
+    Flux<Product> products = productService.requestByKeyword(keyword);
     return productService.saveAll(products);
   }
 }
