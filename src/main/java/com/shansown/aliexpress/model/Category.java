@@ -2,10 +2,12 @@ package com.shansown.aliexpress.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import lombok.Data;
 
 @Data
-@Entity(name = "ali_category")
+@Entity
+@Table(name = "ali_category")
 public class Category {
 
   @Id

@@ -18,6 +18,12 @@ CREATE TABLE ali_product (
   CONSTRAINT FK_ALI_PRODUCT_ALI_CATEGORY FOREIGN KEY (category_id) REFERENCES ali_category (id)
 );
 
+CREATE TABLE ali_api_track (
+  method VARCHAR(255) NOT NULL PRIMARY KEY,
+  requests INTEGER NOT NULL DEFAULT 0,
+  last_update TIMESTAMP
+);
+
 INSERT INTO ali_category VALUES
   (3, 'Apparel & Accessories'),
   (34, 'Automobiles & Motorcycles'),

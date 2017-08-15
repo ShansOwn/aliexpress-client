@@ -22,6 +22,9 @@ com.shansown.aliexpress:
       tracking-id: shansown
       call-frequency: 100000
       signature: KjEWugZwudL
+    api-track:
+      flush-statistics: ${API_TRACK_FLUSH}
+      reset-statistics: 0 0 3 * * *
 logging.level:
   root: INFO
 

@@ -38,6 +38,7 @@ dependencies {
   compile('org.liquibase:liquibase-core')
 
   compile('com.google.guava:guava:23.0')
+  compile('joda-time:joda-time:2.9.9')
   compile('com.github.ben-manes.caffeine:caffeine')
 
   runtime('org.springframework.boot:spring-boot-devtools')
