@@ -6,7 +6,7 @@ CREATE TABLE ali_category (
 CREATE TABLE ali_product (
   id BIGINT NOT NULL PRIMARY KEY,
   category_id BIGINT NOT NULL,
-  title VARCHAR(255),
+  title VARCHAR(600),
   product_url VARCHAR(255),
   promotion_url VARCHAR(600),
   image_url VARCHAR(255),

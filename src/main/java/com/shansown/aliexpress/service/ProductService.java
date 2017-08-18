@@ -112,6 +112,8 @@ public class ProductService {
     return products.stream()
         .map(productMapper)
         .peek(product -> {
+          String cleanTitle = product.getTitle().replaceAll("(<font>|</font>|<b>|</b>)", "");
+          product.setTitle(cleanTitle);
           product.setCategoryId(catId);
           product.setPromotionUrl(promotionLinksByUrl.get(product.getProductUrl()));
         });
