@@ -1,9 +1,14 @@
 package com.shansown.aliexpress.model;
 
 import java.util.Date;
+import java.util.Set;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +27,9 @@ public class Product {
   private Long id;
 
   @Column(name = "category_id")
-  private Long categoryId;
+  @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(name = "ali_category_ali_product", joinColumns = @JoinColumn(name = "product_id"))
+  private Set<Long> categoryIds;
 
   private String title;
 

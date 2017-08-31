@@ -5,7 +5,6 @@ CREATE TABLE ali_category (
 
 CREATE TABLE ali_product (
   id BIGINT NOT NULL PRIMARY KEY,
-  category_id BIGINT NOT NULL,
   title VARCHAR(600),
   product_url VARCHAR(255),
   promotion_url VARCHAR(600),
@@ -14,8 +13,14 @@ CREATE TABLE ali_product (
   evaluate_score REAL,
   original_price REAL,
   sale_price REAL,
-  discount INTEGER,
-  CONSTRAINT FK_ALI_PRODUCT_ALI_CATEGORY FOREIGN KEY (category_id) REFERENCES ali_category (id)
+  discount INTEGER
+);
+
+CREATE TABLE ali_category_ali_product (
+  category_id BIGINT NOT NULL,
+  product_id BIGINT NOT NULL,
+  CONSTRAINT FK_ALI_CATEGORY_ALI_PRODUCT FOREIGN KEY (category_id) REFERENCES ali_category (id),
+  CONSTRAINT FK_ALI_PRODUCT_ALI_CATEGORY FOREIGN KEY (product_id) REFERENCES ali_product (id)
 );
 
 CREATE TABLE ali_api_track (
