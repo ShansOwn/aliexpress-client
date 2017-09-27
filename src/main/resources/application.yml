@@ -17,6 +17,7 @@ spring:
       dialect: org.hibernate.dialect.PostgreSQL95Dialect
   liquibase.change-log: classpath:db/changelog/db.changelog-master.xml
 com.shansown.aliexpress:
+    general.batch: 5000
     ali-access:
       api-key: 28110
       tracking-id: shansown
@@ -25,6 +26,13 @@ com.shansown.aliexpress:
     api-track:
       flush-statistics: ${API_TRACK_FLUSH}
       reset-statistics: 0 0 3 * * *
+    elasticsearch:
+      host: ${ELASTIC_HOST}
+      port: ${ELASTIC_PORT}
+      scheme: ${ELASTIC_SCHEME}
+      user: ${ELASTIC_USER}
+      password: ${ELASTIC_PASSWORD}
+      timeout: 5000
 logging.level:
   root: INFO
 

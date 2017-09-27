@@ -15,9 +15,8 @@ import com.shansown.aliexpress.api.response.PromotionLink;
 import com.shansown.aliexpress.config.properties.AliAccessProperty;
 import com.shansown.aliexpress.model.Category;
 import com.shansown.aliexpress.model.Product;
-import com.shansown.aliexpress.repository.ProductReactiveRepository;
+import com.shansown.aliexpress.repository.ProductReactiveIndexedRepository;
 import com.shansown.aliexpress.service.mapper.ProductMapper;
-import com.shansown.aliexpress.util.PageCalculator;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -49,10 +48,10 @@ public class ProductService {
 
   private final ProductMapper productMapper;
 
-  private final ProductReactiveRepository productRepository;
+  private final ProductReactiveIndexedRepository productRepository;
 
   public Flux<Product> requestByKeyword(String keyword) {
-    log.debug("Find by keyword: {}", keyword);
+    log.debug("Find by keyword: '{}'", keyword);
     return categoryService.getAll()
         .map(Category::getId)
         .flatMap(catId -> requestAllAliProducts(catId, keyword)
@@ -113,9 +112,9 @@ public class ProductService {
 
   private Stream<Product> mapProducts(Long catId, List<AliProduct> products, List<PromotionLink> promotionUrls) {
     Map<String, String> promotionLinksByUrl = promotionUrls.stream()
-        .collect(toMap(PromotionLink::getUrl, PromotionLink::getPromotionUrl));
+        .collect(toMap(PromotionLink::getUrl, PromotionLink::getPromotionUrl, (o, n) -> n));
     return products.stream()
-        .map(productMapper)
+        .map(productMapper::apply)
         .peek(product -> {
           String cleanTitle = product.getTitle().replaceAll("(<font>|</font>|<b>|</b>)", "");
           product.setTitle(cleanTitle);

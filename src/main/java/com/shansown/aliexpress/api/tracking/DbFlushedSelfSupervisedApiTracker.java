@@ -91,7 +91,7 @@ public class DbFlushedSelfSupervisedApiTracker implements ApiTracker {
 
   private Collection<ApiTrack> mapStatistics(Map<AliApiMethod, Integer> statistics, Date update) {
     return statistics.entrySet().stream()
-        .map(apiTrackMapper)
+        .map(apiTrackMapper::apply)
         .peek(t -> t.setLastUpdate(update))
         .collect(toSet());
   }

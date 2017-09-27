@@ -1,6 +1,7 @@
 buildscript {
   ext {
     springBootVersion = '2.0.0.BUILD-SNAPSHOT'
+    elasticsearchVersion = '5.6.2'
   }
   repositories {
     mavenCentral()
@@ -27,7 +28,6 @@ repositories {
 }
 
 dependencies {
-  compile('org.springframework.boot:spring-boot-starter-actuator')
   compile('org.springframework.boot:spring-boot-starter-data-jpa')
   compile('org.springframework.boot:spring-boot-starter-cache')
   compile('org.springframework.retry:spring-retry')
@@ -37,9 +37,14 @@ dependencies {
   compile('org.postgresql:postgresql:42.1.1')
   compile('org.liquibase:liquibase-core')
 
+  compile("org.elasticsearch.client:elasticsearch-rest-high-level-client:${elasticsearchVersion}")
+  compile("org.elasticsearch:elasticsearch:${elasticsearchVersion}")
+
   compile('com.google.guava:guava:23.0')
   compile('joda-time:joda-time:2.9.9')
   compile('com.github.ben-manes.caffeine:caffeine')
+
+  compile('org.apache.logging.log4j:log4j-to-slf4j:2.9.1')
 
   runtime('org.springframework.boot:spring-boot-devtools')
 
@@ -52,7 +57,8 @@ dependencies {
 
   // optional dependencies for using Spock
   testRuntime "net.bytebuddy:byte-buddy:1.6.5" // allows mocking of classes (in addition to interfaces)
-  testRuntime "org.objenesis:objenesis:2.5.1"  // allows mocking of classes without default constructor (together with CGLIB)
+  testRuntime "org.objenesis:objenesis:2.5.1"
+  // allows mocking of classes without default constructor (together with CGLIB)
   testCompile('org.springframework.boot:spring-boot-starter-test')
   testCompile('io.projectreactor:reactor-test')
 }

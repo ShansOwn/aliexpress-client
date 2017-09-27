@@ -23,6 +23,7 @@ public class RootController {
   @PostMapping("/find")
   public Mono<Long> find(@RequestBody String keyword) {
     Flux<Product> products = productService.requestByKeyword(keyword);
-    return productService.saveAll(products);
+    return productService.saveAll(products)
+        .doOnSuccess(count -> log.info("{} products found and processed with '{}' keyword", count, keyword));
   }
 }

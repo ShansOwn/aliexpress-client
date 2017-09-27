@@ -23,7 +23,7 @@ public class WebClientAliApi implements AliApi {
 
   public <T extends AliResult> Mono<AliResponse<T>> get(AliRequest<T> request) {
     String uri = request.toRequestString();
-    log.debug("Invoke Ali api uri: {}", uri);
+    log.trace("Invoke Ali api uri: {}", uri);
     return webClient.get().uri(uri).accept(APPLICATION_JSON).exchange()
         .flatMap(r -> r.bodyToMono(request.getResultType()))
         .flatMap(r -> r.getErrorCode() == SUCCESS_CODE
