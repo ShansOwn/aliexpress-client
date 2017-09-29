@@ -1,3 +1,8 @@
+CREATE TABLE search_info (
+  id BIGINT NOT NULL PRIMARY KEY,
+  version INTEGER NOT NULL
+);
+
 CREATE TABLE ali_category (
   id BIGINT NOT NULL PRIMARY KEY,
   name VARCHAR(255)
@@ -13,7 +18,8 @@ CREATE TABLE ali_product (
   evaluate_score REAL,
   original_price REAL,
   sale_price REAL,
-  discount INTEGER
+  discount INTEGER,
+  updated TIMESTAMP
 );
 
 CREATE TABLE ali_category_ali_product (

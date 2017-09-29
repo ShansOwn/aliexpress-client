@@ -18,14 +18,16 @@ import static org.apache.http.auth.AuthScope.ANY;
 public class SearchConfig {
 
   @Bean
-  RestHighLevelClient elasticClient(ElasticsearchProperty property) {
+  RestHighLevelClient elasticClient(RestClient lowLevelRestClient) {
+    return new RestHighLevelClient(lowLevelRestClient);
+  }
+
+  @Bean
+  RestClient lowLevelRestClient(ElasticsearchProperty property) {
     final CredentialsProvider creds = new BasicCredentialsProvider();
     creds.setCredentials(ANY, new UsernamePasswordCredentials(property.getUser(), property.getPassword()));
-
-    RestClient lowLevelRestClient =
-        RestClient.builder(new HttpHost(property.getHost(), property.getPort(), property.getScheme()))
-            .setHttpClientConfigCallback(httpClientBuilder -> httpClientBuilder.setDefaultCredentialsProvider(creds))
-            .build();
-    return new RestHighLevelClient(lowLevelRestClient);
+    return RestClient.builder(new HttpHost(property.getHost(), property.getPort(), property.getScheme()))
+        .setHttpClientConfigCallback(httpClientBuilder -> httpClientBuilder.setDefaultCredentialsProvider(creds))
+        .build();
   }
 }

@@ -67,6 +67,11 @@ public class ProductService {
     return productRepository.mergeAll(products).count();
   }
 
+  public Mono<Long> reindexAll() {
+    log.warn("Reindex all products");
+    return productRepository.reindexAll().count();
+  }
+
   private Flux<AliProduct> requestAllAliProducts(Long catId, String keyword) {
     return requestAliProductsPages(catId, keyword)
         .flatMap(page -> requestListAliProducts(catId, keyword, page))

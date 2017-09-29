@@ -1,0 +1,25 @@
+{
+    "settings": {
+        "number_of_shards": 1,
+        "number_of_replicas": 1
+    },
+    "mappings": {
+        "product": {
+            "properties": {
+                "categoryIds": {"type": "long"},
+                "title": {
+                    "type": "text",
+                    "fields": {"raw": {"type": "keyword"}}
+                },
+                "imageUrl": {"type": "keyword", "index": "false"},
+                "promotionUrl": {"type": "keyword", "index": "false"},
+                "validTime": {"type": "date", "format": "epoch_millis", "index": "false"},
+                "evaluateScore": {"type": "scaled_float", "scaling_factor": 100},
+                "originalPrice": {"type": "scaled_float", "scaling_factor": 100},
+                "salePrice": {"type": "scaled_float", "scaling_factor": 100},
+                "discount": {"type": "byte"},
+                "updated": {"type": "date", "format": "epoch_millis"}
+            }
+        }
+    }
+}

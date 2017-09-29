@@ -42,7 +42,6 @@ public class Product {
   private String imageUrl;
 
   @Column(name = "product_url")
-  @JsonView(Views.Index.class)
   private String productUrl;
 
   @Column(name = "promotion_url")
@@ -67,4 +66,7 @@ public class Product {
 
   @JsonView(Views.Index.class)
   private Integer discount;
+
+  @JsonView(Views.Index.class)
+  private Date updated;
 }

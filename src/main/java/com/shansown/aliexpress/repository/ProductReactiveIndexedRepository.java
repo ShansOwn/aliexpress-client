@@ -3,6 +3,7 @@ package com.shansown.aliexpress.repository;
 import com.shansown.aliexpress.model.Product;
 import com.shansown.aliexpress.repository.search.ProductSearch;
 import java.time.Duration;
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.StreamSupport;
@@ -34,14 +35,25 @@ public class ProductReactiveIndexedRepository {
     return Flux.from(entityStream)
         .bufferTimeout(batch, Duration.of(1, SECONDS))
         .map(ps -> {
+          final Date updated = new Date();
           Iterable<Product> products = productRepository.findAllById(ps.stream().map(Product::getId).collect(toList()));
           Map<Long, Set<Long>> cats = StreamSupport.stream(products.spliterator(), false)
               .collect(toMap(Product::getId, Product::getCategoryIds));
-          ps.forEach(p -> p.getCategoryIds().addAll(cats.computeIfAbsent(p.getId(), __ -> emptySet())));
+          ps.forEach(p -> {
+            p.setUpdated(updated);
+            p.getCategoryIds().addAll(cats.computeIfAbsent(p.getId(), __ -> emptySet()));
+          });
           return ps;
         })
         .publishOn(dbScheduler)
         .map(productRepository::saveAll)
+        .doOnNext(productSearch::index)
+        .flatMap(Flux::fromIterable);
+  }
+
+  public Flux<Product> reindexAll() {
+    return Flux.fromIterable(productRepository.findAll())
+        .bufferTimeout(batch, Duration.of(1, SECONDS))
         .doOnNext(productSearch::index)
         .flatMap(Flux::fromIterable);
   }
