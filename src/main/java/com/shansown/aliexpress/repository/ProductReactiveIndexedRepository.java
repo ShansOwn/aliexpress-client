@@ -1,5 +1,6 @@
 package com.shansown.aliexpress.repository;
 
+import com.google.common.collect.Sets;
 import com.shansown.aliexpress.model.Product;
 import com.shansown.aliexpress.repository.search.ProductSearch;
 import java.time.Duration;
@@ -41,7 +42,7 @@ public class ProductReactiveIndexedRepository {
               .collect(toMap(Product::getId, Product::getCategoryIds));
           ps.forEach(p -> {
             p.setUpdated(updated);
-            p.getCategoryIds().addAll(cats.computeIfAbsent(p.getId(), __ -> emptySet()));
+            p.setCategoryIds(Sets.union(p.getCategoryIds(), cats.computeIfAbsent(p.getId(), __ -> emptySet())));
           });
           return ps;
         })

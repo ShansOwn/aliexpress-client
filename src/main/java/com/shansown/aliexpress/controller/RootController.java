@@ -5,9 +5,11 @@ import com.shansown.aliexpress.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -25,5 +27,10 @@ public class RootController {
     Flux<Product> products = productService.requestByKeyword(keyword);
     return productService.saveAll(products)
         .doOnSuccess(count -> log.info("{} products found and processed with '{}' keyword", count, keyword));
+  }
+
+  @GetMapping("/details")
+  public Mono<Product> details(@RequestParam Long id) {
+    return productService.requestDetails(id);
   }
 }
