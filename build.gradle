@@ -54,11 +54,13 @@ dependencies {
   // mandatory dependencies for using Spock
   compile "org.codehaus.groovy:groovy-all:2.4.10"
   testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
+  testCompile "org.spockframework:spock-spring:1.1-groovy-2.4"
 
   // optional dependencies for using Spock
   testRuntime "net.bytebuddy:byte-buddy:1.6.5" // allows mocking of classes (in addition to interfaces)
-  testRuntime "org.objenesis:objenesis:2.5.1"
   // allows mocking of classes without default constructor (together with CGLIB)
+  testRuntime "org.objenesis:objenesis:2.5.1"
+
   testCompile('org.springframework.boot:spring-boot-starter-test')
   testCompile('io.projectreactor:reactor-test')
 }

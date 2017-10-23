@@ -51,6 +51,6 @@ class InMemoryApiTrackerTest extends Specification {
   }
 
   def createGetPromotionProductDetailRequest() {
-    GetPromotionProductDetailRequest.builder().access(aliAccess).fields("").productId("").build()
+    GetPromotionProductDetailRequest.builder().access(aliAccess).fields("").productId(0L).build()
   }
 }

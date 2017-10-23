@@ -3,7 +3,6 @@ package com.shansown.aliexpress.service.mapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shansown.aliexpress.api.response.AliProduct;
-import com.shansown.aliexpress.config.Views;
 import com.shansown.aliexpress.model.Product;
 import com.shansown.aliexpress.model.error.MappingError;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +35,7 @@ public class ProductMapper implements ModelMapper<AliProduct, Product>, JsonMapp
   @Override
   public byte[] apply(Product product, Class<?> view) {
     try {
-      return jsonMapper.writerWithView(Views.Index.class).writeValueAsBytes(product);
+      return jsonMapper.writerWithView(view).writeValueAsBytes(product);
     } catch (JsonProcessingException e) {
       throw new MappingError(String.format("Couldn't map next product: %s", product), e);
     }

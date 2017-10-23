@@ -11,8 +11,6 @@ public class AppConfig {
 
   @Bean
   ObjectMapper jsonMapper() {
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.disable(DEFAULT_VIEW_INCLUSION);
-    return mapper;
+    return new ObjectMapper().disable(DEFAULT_VIEW_INCLUSION);
   }
 }
