@@ -1,8 +1,3 @@
-CREATE TABLE search_info (
-  id BIGINT NOT NULL PRIMARY KEY,
-  version INTEGER NOT NULL
-);
-
 CREATE TABLE ali_category (
   id BIGINT NOT NULL PRIMARY KEY,
   name VARCHAR(255)

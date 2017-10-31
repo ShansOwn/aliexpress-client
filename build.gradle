@@ -1,7 +1,7 @@
 buildscript {
   ext {
-    springBootVersion = '2.0.0.BUILD-SNAPSHOT'
-    elasticsearchVersion = '5.6.2'
+    springCloudVersion = 'Finchley.M3'
+    springBootVersion = '2.0.0.M4'
   }
   repositories {
     mavenCentral()
@@ -28,17 +28,15 @@ repositories {
 }
 
 dependencies {
+  compile('org.springframework.cloud:spring-cloud-starter-config')
+  compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
+
   compile('org.springframework.boot:spring-boot-starter-data-jpa')
   compile('org.springframework.boot:spring-boot-starter-cache')
-  compile('org.springframework.retry:spring-retry')
   compile('org.springframework.boot:spring-boot-starter-webflux')
-  compile('org.springframework.boot:spring-boot-starter-security')
 
   compile('org.postgresql:postgresql:42.1.1')
   compile('org.liquibase:liquibase-core')
-
-  compile("org.elasticsearch.client:elasticsearch-rest-high-level-client:${elasticsearchVersion}")
-  compile("org.elasticsearch:elasticsearch:${elasticsearchVersion}")
 
   compile('com.google.guava:guava:23.0')
   compile('joda-time:joda-time:2.9.9')
@@ -62,7 +60,12 @@ dependencies {
   testRuntime "org.objenesis:objenesis:2.5.1"
 
   testCompile('org.springframework.boot:spring-boot-starter-test')
-  testCompile('io.projectreactor:reactor-test')
 }
 
 compileJava.dependsOn(processResources)
+
+dependencyManagement {
+  imports {
+    mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+  }
+}

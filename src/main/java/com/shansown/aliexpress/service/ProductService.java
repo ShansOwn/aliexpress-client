@@ -15,7 +15,7 @@ import com.shansown.aliexpress.api.response.PromotionLink;
 import com.shansown.aliexpress.config.properties.AliAccessProperty;
 import com.shansown.aliexpress.model.Category;
 import com.shansown.aliexpress.model.Product;
-import com.shansown.aliexpress.repository.ProductReactiveIndexedRepository;
+import com.shansown.aliexpress.repository.ProductReactiveRepository;
 import com.shansown.aliexpress.service.mapper.ProductMapper;
 import java.util.Collection;
 import java.util.Collections;
@@ -26,7 +26,6 @@ import javax.annotation.Nullable;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -41,7 +40,7 @@ import static java.util.stream.Collectors.toMap;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 public class ProductService {
 
   private final AliAccessProperty aliAccessProperty;
@@ -51,7 +50,12 @@ public class ProductService {
 
   private final ProductMapper productMapper;
 
-  private final ProductReactiveIndexedRepository productRepository;
+  private final ProductReactiveRepository productRepository;
+
+  // TODO: Get only good for sale products
+  public Flux<Product> getForSale() {
+    return productRepository.getAll();
+  }
 
   public Mono<Product> requestDetails(Long id) {
     return requestProductDetails(id)
@@ -74,11 +78,6 @@ public class ProductService {
   public Mono<Long> saveAll(Flux<Product> products) {
     log.debug("Save all");
     return productRepository.mergeAll(products).count();
-  }
-
-  public Mono<Long> reindexAll() {
-    log.warn("Reindex all products");
-    return productRepository.reindexAll().count();
   }
 
   private Flux<AliProduct> requestAllAliProducts(Long catId, String keyword) {

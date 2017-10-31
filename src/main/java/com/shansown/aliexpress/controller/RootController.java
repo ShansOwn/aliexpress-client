@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @RestController
 @RequestMapping("/api/v1")
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 public class RootController {
 
   private final ProductService productService;
@@ -37,5 +37,11 @@ public class RootController {
         .flatMap(productService::requestDetails);
     return productService.saveAll(products)
         .doOnSuccess(count -> log.info("{} products found and processed with {} ids", count, ids.size()));
+  }
+
+  @GetMapping("/get-for-sale")
+  public Flux<Product> getForSale() {
+    log.info("Get products for sale");
+    return productService.getForSale();
   }
 }

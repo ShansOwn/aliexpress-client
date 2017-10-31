@@ -6,11 +6,10 @@ import com.shansown.aliexpress.api.response.AliProduct;
 import com.shansown.aliexpress.model.Product;
 import com.shansown.aliexpress.model.error.MappingError;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 public class ProductMapper implements ModelMapper<AliProduct, Product>, JsonMapper<Product, Class<?>, byte[]> {
 
   private final PriceMapper priceMapper;
