@@ -41,7 +41,7 @@ class ProductMapperTest extends Specification {
 
   def "product should be mapped to json bytes"() {
     given:
-    def view = Views.Index
+    def view = Views.Public
     def productMapper = new ProductMapper(new PriceMapper(), new DiscountMapper(), jsonMapper)
 
     when:
@@ -49,10 +49,10 @@ class ProductMapperTest extends Specification {
     Product result = jsonMapper.readerFor(Product.class).readValue(productMapper.apply(src, view))
 
     then:
-    result.id == null // NOT Views.Index
+    result.id == src.id
     result.title == src.title
     result.imageUrl == src.imageUrl
-    result.productUrl == null // NOT Views.Index
+    result.productUrl == null // NOT Views.Public
     result.validTime == src.validTime
     result.evaluateScore == src.evaluateScore
     result.originalPrice == src.originalPrice

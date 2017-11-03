@@ -4,6 +4,6 @@ public class Views {
   //@formatter:off
   public static class Core {}
 
-  public static class Index extends Core {}
+  public static class Public extends Core {}
   //@formatter:on
 }
