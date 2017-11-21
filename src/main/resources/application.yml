@@ -1,0 +1,62 @@
+spring:
+#  application:
+#    name: aliexpress-service
+  cloud:
+    config:
+      enabled: false
+      uri: http://${CONFIG:localhost}:8888
+      fail-fast: true
+      password: ${CONFIG_SERVICE_PASSWORD:test-config}
+      username: user
+
+#--- Config service all ---
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://${REGISTRY:localhost}:8761/eureka/
+
+#--- Config service ---
+security:
+  oauth2:
+    client:
+      clientId: aliexpress-service
+      clientSecret: ${ALIEXPRESS_SERVICE_PASSWORD}
+      accessTokenUri: http://${AUTH_SERVICE:localhost}:5000/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server
+
+spring:
+  application:
+    name: aliexpress-service
+  cache:
+    cache-names: categories
+    caffeine:
+      spec: expireAfterWrite=1h
+  datasource:
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+    hikari.maximum-pool-size: ${MAX_POOL_SIZE}
+  jpa:
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: validate
+    properties.hibernate:
+      dialect: org.hibernate.dialect.PostgreSQL95Dialect
+  liquibase.change-log: classpath:db/changelog/db.changelog-master.xml
+com.shansown.aliexpress:
+  general.batch: 5000
+  ali-access:
+    api-key: 28110
+    tracking-id: shansown
+    call-frequency: 100000
+    signature: KjEWugZwudL
+  api-track:
+    flush-statistics: ${API_TRACK_FLUSH}
+    reset-statistics: 0 0 3 * * *
+server:
+  port: 8001
+logging.level:
+  root: INFO
