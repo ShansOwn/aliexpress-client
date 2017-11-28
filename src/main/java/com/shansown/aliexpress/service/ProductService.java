@@ -26,6 +26,7 @@ import javax.annotation.Nullable;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -51,10 +52,10 @@ public class ProductService {
   private final ProductMapper productMapper;
 
   private final ProductReactiveRepository productRepository;
+  private final Specification<Product> productForSaleSpecification;
 
-  // TODO: Get only good for sale products
   public Flux<Product> getForSale() {
-    return productRepository.getAll();
+    return productRepository.findAll(productForSaleSpecification);
   }
 
   public Mono<Product> requestDetails(Long id) {

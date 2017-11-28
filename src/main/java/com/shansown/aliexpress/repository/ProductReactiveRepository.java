@@ -10,6 +10,7 @@ import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Scheduler;
@@ -48,7 +49,7 @@ public class ProductReactiveRepository {
         .flatMap(Flux::fromIterable);
   }
 
-  public Flux<Product> getAll() {
-    return Flux.fromIterable(productRepository.findAll());
+  public Flux<Product> findAll(Specification<Product> specification) {
+    return Flux.fromIterable(productRepository.findAll(specification));
   }
 }

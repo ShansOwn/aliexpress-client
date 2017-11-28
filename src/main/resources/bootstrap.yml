@@ -47,7 +47,9 @@ spring:
       dialect: org.hibernate.dialect.PostgreSQL95Dialect
   liquibase.change-log: classpath:db/changelog/db.changelog-master.xml
 com.shansown.aliexpress:
-  general.batch: 5000
+  general:
+    batch: 5000
+    product-valid-hours: 24
   ali-access:
     api-key: 28110
     tracking-id: shansown
