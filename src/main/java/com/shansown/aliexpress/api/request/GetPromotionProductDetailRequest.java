@@ -1,8 +1,8 @@
 package com.shansown.aliexpress.api.request;
 
 import com.shansown.aliexpress.api.error.AliApiError;
+import com.shansown.aliexpress.api.response.AliProduct;
 import com.shansown.aliexpress.api.response.AliResponse;
-import com.shansown.aliexpress.api.response.GetPromotionProductDetailResult;
 import com.shansown.aliexpress.config.properties.AliAccessProperty;
 import java.util.Objects;
 import java.util.Optional;
@@ -22,14 +22,14 @@ import static com.shansown.aliexpress.api.AliApiMethod.GET_PROMOTION_PRODUCT_DET
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class GetPromotionProductDetailRequest extends BaseAliRequest<GetPromotionProductDetailResult> {
+public class GetPromotionProductDetailRequest extends BaseAliRequest<AliProduct> {
 
-  private static final ParameterizedTypeReference<AliResponse<GetPromotionProductDetailResult>>
-      RESULT_TYPE = new ParameterizedTypeReference<AliResponse<GetPromotionProductDetailResult>>() {
+  private static final ParameterizedTypeReference<AliResponse<AliProduct>>
+      RESULT_TYPE = new ParameterizedTypeReference<AliResponse<AliProduct>>() {
   };
 
   @Builder
-  public GetPromotionProductDetailRequest(AliAccessProperty access, String fields, String productId,
+  public GetPromotionProductDetailRequest(AliAccessProperty access, String fields, Long productId,
       String localCurrency, String language) {
     super(access, GET_PROMOTION_PRODUCT_DETAIL);
     Objects.requireNonNull(fields, "Fields property required");
@@ -41,7 +41,7 @@ public class GetPromotionProductDetailRequest extends BaseAliRequest<GetPromotio
   }
 
   @Override
-  public ParameterizedTypeReference<AliResponse<GetPromotionProductDetailResult>> getResultType() {
+  public ParameterizedTypeReference<AliResponse<AliProduct>> getResultType() {
     return RESULT_TYPE;
   }
 

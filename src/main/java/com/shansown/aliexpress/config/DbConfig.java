@@ -17,8 +17,7 @@ public class DbConfig {
 
   @Bean
   Scheduler dbScheduler() {
-    ThreadFactory threadFactory = new ThreadFactoryBuilder()
-        .setNameFormat("db-pool-thread-%d").build();
+    ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("db-pool-%d").build();
     return Schedulers.fromExecutorService(Executors.newFixedThreadPool(maxPoolSize, threadFactory));
   }
 }

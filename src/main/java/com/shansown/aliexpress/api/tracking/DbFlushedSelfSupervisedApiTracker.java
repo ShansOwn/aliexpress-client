@@ -16,7 +16,6 @@ import javax.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.scheduling.support.SimpleTriggerContext;
@@ -28,7 +27,7 @@ import static java.util.stream.Collectors.toSet;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 public class DbFlushedSelfSupervisedApiTracker implements ApiTracker {
 
   private final ApiTrackingProperty apiTrackingProperty;
@@ -91,7 +90,7 @@ public class DbFlushedSelfSupervisedApiTracker implements ApiTracker {
 
   private Collection<ApiTrack> mapStatistics(Map<AliApiMethod, Integer> statistics, Date update) {
     return statistics.entrySet().stream()
-        .map(apiTrackMapper)
+        .map(apiTrackMapper::apply)
         .peek(t -> t.setLastUpdate(update))
         .collect(toSet());
   }

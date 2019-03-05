@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder(builderClassName = "Builder")
-public class AliProduct {
+public class AliProduct implements AliResult  {
   private final Long productId;
   private final String productTitle;
   private final String productUrl;

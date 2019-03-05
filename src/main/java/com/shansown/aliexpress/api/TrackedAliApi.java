@@ -6,14 +6,13 @@ import com.shansown.aliexpress.api.response.AliResponse;
 import com.shansown.aliexpress.api.response.AliResult;
 import com.shansown.aliexpress.api.tracking.ApiTracker;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 @Primary
 @Component
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 public class TrackedAliApi implements AliApi {
 
   private final AliApi aliApi;
